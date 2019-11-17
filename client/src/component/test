@@ -1,0 +1,57 @@
+import React, {Component} from 'react';
+import Student from './component/Student';
+import EnhancedTable from './component/User';
+
+
+
+
+
+class App extends Component {
+
+  state = {
+    data: ''
+    }
+  
+
+  componentDidMount() {
+    fetch('http://localhost:8000/api/user/5dad3791a1a4a10fb4795152')
+      .then(response => response.json())
+      .then(user => {
+        this.setState({ data: user }, () => { console.log('state: ', this.state.data )})
+      })
+  }
+
+ createData = (name, stuff_id, role, email, password) => {
+  return {
+    name,
+    stuff_id,
+    role,
+    email,
+    password
+  };
+}
+
+
+  render(){
+    return (
+      <div className="App">
+        {this.state.data != '' &&
+        
+          < EnhancedTable
+            rows={
+              [
+                this.createData(this.state.data.name, this.state.data.stuff_id, this.state.data.role, this.state.data.email, this.state.data.password)
+              //this.createData(this.state.data[1].name, this.state.data[1].stuff_id, this.state.data[1].role, this.state.data[0].email, this.state.data[1].password),
+
+              ]
+            }
+          />
+        }
+        
+        {/* <Student /> */}
+      </div>
+    );
+  }
+}
+
+export default App;
